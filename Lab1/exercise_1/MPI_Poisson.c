@@ -2,7 +2,7 @@
  * SEQ_Poisson.c
  * 2D Poison equation solver
 */
-
+#include "mpi.h"
 #include <stdio.h>
 //#include <stdafx.h>
 #include <stdlib.h>
@@ -22,6 +22,17 @@ enum
 int gridsize[2];
 double precision_goal;		/* precision_goal of solution */
 int max_iter;			/* maximum number of iterations alowed */
+int proc_rank;// could not sure of the type of the variable!!!
+double wtime;
+int np, proc_rank;
+double wtime;
+int proc_coord[2];
+int proc_top, proc_right, proc_bottom, proc_left;
+int P;
+int P_grid[2];
+MPI_Comm grid_comm;
+MPI_Status status;
+
 
 /* benchmark related variables */
 clock_t ticks;			/* number of systemticks */
@@ -33,6 +44,7 @@ int **source;			/* TRUE if subgrid element is a source */
 int dim[2];			/* grid dimensions */
 
 void Setup_Grid();
+void Setup_Proc_Grid(int argc, char **pString);
 double Do_Step(int parity);
 void Solve();
 void Write_Grid();
@@ -43,11 +55,16 @@ void resume_timer();
 void stop_timer();
 void print_timer();
 
+
 void start_timer()
 {
   if (!timer_on)
   {
+      MPI_Barrier(MPI_COMM_WORLD);
+
     ticks = clock();
+
+    wtime=MPI_Wtime();
     timer_on = 1;
   }
 }
@@ -57,6 +74,7 @@ void resume_timer()
   if (!timer_on)
   {
     ticks = clock() - ticks;
+    wtime=MPI_Wtime()-wtime;
     timer_on = 1;
   }
 }
@@ -66,6 +84,7 @@ void stop_timer()
   if (timer_on)
   {
     ticks = clock() - ticks;
+    wtime=MPI_Wtime()-wtime;
     timer_on = 0;
   }
 }
@@ -75,11 +94,15 @@ void print_timer()
   if (timer_on)
   {
     stop_timer();
-    printf("Elapsed processortime: %14.6f s\n", ticks * (1.0 / CLOCKS_PER_SEC));
+    printf("(%i) Elasped time: %14.6f s (%5.1f%% CPU) \n"
+           , proc_rank, wtime, 100.0*ticks*(1.0/CLOCKS_PER_SEC)/wtime);
+    //printf("Elapsed processortime: %14.6f s\n", ticks * (1.0 / CLOCKS_PER_SEC));
     resume_timer();
   }
   else
-    printf("Elapsed processortime: %14.6f s\n", ticks * (1.0 / CLOCKS_PER_SEC));
+      printf("(%i) Elasped time: %14.6f s (%5.1f%% CPU) \n"
+              , proc_rank, wtime, 100.0*ticks*(1.0/CLOCKS_PER_SEC)/wtime);
+    //printf("Elapsed processortime: %14.6f s\n", ticks * (1.0 / CLOCKS_PER_SEC));
 }
 
 void Debug(char *mesg, int terminate)
@@ -89,7 +112,27 @@ void Debug(char *mesg, int terminate)
   if (terminate)
     exit(1);
 }
-
+void Setup_Proc_Grid(int argc, char **argv) {
+    int wrap_around[2];
+    int reorder;
+    Debug("My_MPI_Init", 0);
+    MPI_Comm_size(MPI_COMM_WORLD, &P);
+    if(argc>2){
+        P_grid[X_DIR]=atoi(argv[1]);
+        P_grid[Y_DIR]=atoi(argv[2]);
+        if(P_grid[X_DIR]*P_grid[Y_DIR]!=P){
+            Debug("ERROR: Process grid dimension do not match with P", 1);
+        }
+    }else{
+        Debug("ERROR: Wrong parameter input", 1);
+    }
+    wrap_around[X_DIR]=0;
+    wrap_around[Y_DIR]=0;
+    reorder=1;
+    MPI_Cart_create(MPI_COMM_WORLD, 2, P_grid, ,reorder, grid_comm);
+    MPI_Comm_rank();
+    MPI_Cart_coords()
+}
 void Setup_Grid()
 {
   int x, y, s;
@@ -97,14 +140,18 @@ void Setup_Grid()
   FILE *f;
 
   Debug("Setup_Subgrid", 0);
-
-  f = fopen("input.dat", "r");
-  if (f == NULL)
-    Debug("Error opening input.dat", 1);
-  fscanf(f, "nx: %i\n", &gridsize[X_DIR]);
-  fscanf(f, "ny: %i\n", &gridsize[Y_DIR]);
-  fscanf(f, "precision goal: %lf\n", &precision_goal);
-  fscanf(f, "max iterations: %i\n", &max_iter);
+  if(proc_rank==0){
+      f = fopen("input.dat", "r");
+      if (f == NULL)
+          Debug("Error opening input.dat", 1);
+      fscanf(f, "nx: %i\n", &gridsize[X_DIR]);
+      fscanf(f, "ny: %i\n", &gridsize[Y_DIR]);
+      fscanf(f, "precision goal: %lf\n", &precision_goal);
+      fscanf(f, "max iterations: %i\n", &max_iter);
+  }
+  MPI_Bcast(&gridsize,2, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&precision_goal, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&max_iter, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
   /* Calculate dimensions of local subgrid */
   dim[X_DIR] = gridsize[X_DIR] + 2;
@@ -136,9 +183,15 @@ void Setup_Grid()
   /* put sources in field */
   do
   {
-    s = fscanf(f, "source: %lf %lf %lf\n", &source_x, &source_y, &source_val);
+      if(proc_rank==0){
+          s = fscanf(f, "source: %lf %lf %lf\n", &source_x, &source_y, &source_val);
+      }
+      MPI_Bcast(&s, 1, MPI_INT, 0, MPI_COMM_WORLD);
     if (s==3)
     {
+        MPI_Bcast(&source_x, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        MPI_Bcast(&source_y, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        MPI_Bcast(&source_val, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
       x = source_x * gridsize[X_DIR];
       y = source_y * gridsize[Y_DIR];
       x += 1;
@@ -148,8 +201,10 @@ void Setup_Grid()
     }
   }
   while (s==3);
+  if(proc_rank==0){
+      fclose(f);
+  }
 
-  fclose(f);
 }
 
 double Do_Step(int parity)
@@ -196,15 +251,19 @@ void Solve()
     count++;
   }
 
-  printf("Number of iterations : %i\n", count);
+  //printf("Number of iterations : %i\n", count);
+  printf("The process %i. Number of iterations: %i\n", proc_rank, count);
 }
 
 void Write_Grid()
 {
   int x, y;
   FILE *f;
-
-  if ((f = fopen("output.dat", "w")) == NULL)
+  char filename[40];
+  printf("process %i", proc_rank);
+  sprintf(filename, "output%i.dat", proc_rank);
+  puts(filename);
+  if ((f = fopen(filename, "w")) == NULL)
     Debug("Write_Grid : fopen failed", 1);
 
   Debug("Write_Grid", 0);
@@ -228,6 +287,11 @@ void Clean_Up()
 
 int main(int argc, char **argv)
 {
+    MPI_Init(&argc, &argv);
+    Setup_Proc_Grid(argc, argv);
+    MPI_Comm_size(MPI_COMM_WORLD, &np);
+    MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
+
   start_timer();
 
   Setup_Grid();
@@ -239,6 +303,8 @@ int main(int argc, char **argv)
   print_timer();
 
   Clean_Up();
-
+  MPI_Finalize();
   return 0;
 }
+
+

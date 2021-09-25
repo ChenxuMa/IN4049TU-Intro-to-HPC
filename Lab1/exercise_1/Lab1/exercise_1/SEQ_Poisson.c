@@ -1,10 +1,9 @@
 /*
  * SEQ_Poisson.c
  * 2D Poison equation solver
-*/
+ */
 
 #include <stdio.h>
-//#include <stdafx.h>
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>

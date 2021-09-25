@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+E:/Intro_to_HPC/MPI_Poisson.c
+E:/intro_to_HPC/MPI/include/mpi.h
+-
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+time.h
+-
+
+E:/intro_to_HPC/MPI/include/mpi.h
+stdint.h
+-
+sal.h
+-
+stdint.h
+-
+
