@@ -53,16 +53,16 @@ RM = "E:\Clion\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = E:\Intro_to_HPC
+CMAKE_SOURCE_DIR = E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = E:\Intro_to_HPC\cmake-build-debug
+CMAKE_BINARY_DIR = E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/Intro_to_HPC.dir/all
+all: CMakeFiles/HPC.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -70,34 +70,34 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/Intro_to_HPC.dir/clean
+clean: CMakeFiles/HPC.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/Intro_to_HPC.dir
+# Target rules for target CMakeFiles/HPC.dir
 
 # All Build rule for target.
-CMakeFiles/Intro_to_HPC.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Intro_to_HPC.dir\build.make CMakeFiles/Intro_to_HPC.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Intro_to_HPC.dir\build.make CMakeFiles/Intro_to_HPC.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=E:\Intro_to_HPC\cmake-build-debug\CMakeFiles --progress-num=1,2,3 "Built target Intro_to_HPC"
-.PHONY : CMakeFiles/Intro_to_HPC.dir/all
+CMakeFiles/HPC.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles --progress-num=1,2,3 "Built target HPC"
+.PHONY : CMakeFiles/HPC.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/Intro_to_HPC.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start E:\Intro_to_HPC\cmake-build-debug\CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Intro_to_HPC.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start E:\Intro_to_HPC\cmake-build-debug\CMakeFiles 0
-.PHONY : CMakeFiles/Intro_to_HPC.dir/rule
+CMakeFiles/HPC.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles 3
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/HPC.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles 0
+.PHONY : CMakeFiles/HPC.dir/rule
 
 # Convenience name for target.
-Intro_to_HPC: CMakeFiles/Intro_to_HPC.dir/rule
-.PHONY : Intro_to_HPC
+HPC: CMakeFiles/HPC.dir/rule
+.PHONY : HPC
 
 # clean rule for target.
-CMakeFiles/Intro_to_HPC.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Intro_to_HPC.dir\build.make CMakeFiles/Intro_to_HPC.dir/clean
-.PHONY : CMakeFiles/Intro_to_HPC.dir/clean
+CMakeFiles/HPC.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/clean
+.PHONY : CMakeFiles/HPC.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

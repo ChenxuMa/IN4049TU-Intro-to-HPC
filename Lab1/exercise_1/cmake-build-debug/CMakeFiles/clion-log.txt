@@ -1,4 +1,4 @@
-"E:\Clion\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - MinGW Makefiles" E:\Intro_to_HPC
+"E:\Clion\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - MinGW Makefiles" E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1
 -- Configuring done
 -- Generating done
--- Build files have been written to: E:/Intro_to_HPC/cmake-build-debug
+-- Build files have been written to: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug

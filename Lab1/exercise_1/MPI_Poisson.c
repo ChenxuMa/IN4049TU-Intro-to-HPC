@@ -27,9 +27,11 @@ double wtime;
 int np, proc_rank;
 double wtime;
 int proc_coord[2];
+int offset[2];
+
 int proc_top, proc_right, proc_bottom, proc_left;
 int P;
-int P_grid[2];
+int P_grid[2]; /*Processgrid dimension*/
 MPI_Comm grid_comm;
 MPI_Status status;
 
@@ -129,16 +131,25 @@ void Setup_Proc_Grid(int argc, char **argv) {
     wrap_around[X_DIR]=0;
     wrap_around[Y_DIR]=0;
     reorder=1;
-    MPI_Cart_create(MPI_COMM_WORLD, 2, P_grid, ,reorder, grid_comm);
-    MPI_Comm_rank();
-    MPI_Cart_coords()
+    MPI_Cart_create(MPI_COMM_WORLD, 2, P_grid, wrap_around, reorder, &grid_comm);
+    MPI_Comm_rank(grid_comm, &proc_rank);
+    MPI_Cart_coords(grid_comm, proc_rank, sizeof(proc_coord), proc_coord);
+    printf("(%i)(x,y)=(%i,%i)\n", proc_rank, proc_coord[X_DIR], proc_coord[Y_DIR]);
+    MPI_Cart_shift(grid_comm, Y_DIR, 1, &proc_rank, &proc_top);
+    MPI_Cart_shift(grid_comm, Y_DIR, 0, &proc_rank, &proc_bottom);
+    MPI_Cart_shift(grid_comm, X_DIR, 1, &proc_rank, &proc_left);
+    MPI_Cart_shift(grid_comm, X_DIR, 0, &proc_rank, &proc_right);
+    if(DEBUG){
+        printf("(%i) top %i, right %i, bottom %i, left %i\n",
+               proc_rank, proc_top, proc_right, proc_bottom, proc_left);
+    }
 }
 void Setup_Grid()
 {
   int x, y, s;
   double source_x, source_y, source_val;
   FILE *f;
-
+  int upper_offset[2];
   Debug("Setup_Subgrid", 0);
   if(proc_rank==0){
       f = fopen("input.dat", "r");
@@ -154,8 +165,23 @@ void Setup_Grid()
   MPI_Bcast(&max_iter, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
   /* Calculate dimensions of local subgrid */
+  /*
   dim[X_DIR] = gridsize[X_DIR] + 2;
   dim[Y_DIR] = gridsize[Y_DIR] + 2;
+   */
+
+  offset[X_DIR]=gridsize[X_DIR]*proc_coord[X_DIR]/P_grid[X_DIR];
+  offset[Y_DIR]=gridsize[Y_DIR]*proc_coord[Y_DIR]/P_grid[Y_DIR];
+  upper_offset[X_DIR]=gridsize[X_DIR]*(proc_coord[X_DIR]+1)/P_grid[X_DIR];
+  upper_offset[Y_DIR]=gridsize[Y_DIR]*(proc_coord[Y_DIR]+1)/P_grid[Y_DIR];
+
+  dim[X_DIR]=upper_offset[X_DIR]-offset[X_DIR];
+  dim[Y_DIR]=upper_offset[Y_DIR]-offset[Y_DIR];
+
+  dim[X_DIR]+=2;
+  dim[Y_DIR]+=2;
+
+
 
   /* allocate memory */
   if ((phi = malloc(dim[X_DIR] * sizeof(*phi))) == NULL)
@@ -196,8 +222,13 @@ void Setup_Grid()
       y = source_y * gridsize[Y_DIR];
       x += 1;
       y += 1;
-      phi[x][y] = source_val;
-      source[x][y] = 1;
+      x=x-offset[X_DIR];
+      y=y-offset[Y_DIR];
+      if(x>0&&x<dim[X_DIR]-1&&y>0&&y<dim[Y_DIR]-1){
+          phi[x][y] = source_val;
+          source[x][y] = 1;
+      }
+
     }
   }
   while (s==3);
@@ -288,9 +319,10 @@ void Clean_Up()
 int main(int argc, char **argv)
 {
     MPI_Init(&argc, &argv);
-    Setup_Proc_Grid(argc, argv);
+
     MPI_Comm_size(MPI_COMM_WORLD, &np);
-    MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
+    Setup_Proc_Grid(argc, argv);
+    //MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
 
   start_timer();
 

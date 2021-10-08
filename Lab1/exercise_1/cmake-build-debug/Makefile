@@ -56,10 +56,10 @@ RM = "E:\Clion\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = E:\Intro_to_HPC
+CMAKE_SOURCE_DIR = E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = E:\Intro_to_HPC\cmake-build-debug
+CMAKE_BINARY_DIR = E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start E:\Intro_to_HPC\cmake-build-debug\CMakeFiles E:\Intro_to_HPC\cmake-build-debug\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start E:\Intro_to_HPC\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -116,24 +116,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Intro_to_HPC
+# Target rules for targets named HPC
 
 # Build rule for target.
-Intro_to_HPC: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 Intro_to_HPC
-.PHONY : Intro_to_HPC
+HPC: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 HPC
+.PHONY : HPC
 
 # fast build rule for target.
-Intro_to_HPC/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Intro_to_HPC.dir\build.make CMakeFiles/Intro_to_HPC.dir/build
-.PHONY : Intro_to_HPC/fast
+HPC/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/build
+.PHONY : HPC/fast
 
 MPI_Poisson.obj: MPI_Poisson.c.obj
 .PHONY : MPI_Poisson.obj
 
 # target to build an object file
 MPI_Poisson.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Intro_to_HPC.dir\build.make CMakeFiles/Intro_to_HPC.dir/MPI_Poisson.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/MPI_Poisson.c.obj
 .PHONY : MPI_Poisson.c.obj
 
 MPI_Poisson.i: MPI_Poisson.c.i
@@ -141,7 +141,7 @@ MPI_Poisson.i: MPI_Poisson.c.i
 
 # target to preprocess a source file
 MPI_Poisson.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Intro_to_HPC.dir\build.make CMakeFiles/Intro_to_HPC.dir/MPI_Poisson.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/MPI_Poisson.c.i
 .PHONY : MPI_Poisson.c.i
 
 MPI_Poisson.s: MPI_Poisson.c.s
@@ -149,7 +149,7 @@ MPI_Poisson.s: MPI_Poisson.c.s
 
 # target to generate assembly for a file
 MPI_Poisson.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Intro_to_HPC.dir\build.make CMakeFiles/Intro_to_HPC.dir/MPI_Poisson.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/MPI_Poisson.c.s
 .PHONY : MPI_Poisson.c.s
 
 SEQ_Poisson.obj: SEQ_Poisson.c.obj
@@ -157,7 +157,7 @@ SEQ_Poisson.obj: SEQ_Poisson.c.obj
 
 # target to build an object file
 SEQ_Poisson.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Intro_to_HPC.dir\build.make CMakeFiles/Intro_to_HPC.dir/SEQ_Poisson.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/SEQ_Poisson.c.obj
 .PHONY : SEQ_Poisson.c.obj
 
 SEQ_Poisson.i: SEQ_Poisson.c.i
@@ -165,7 +165,7 @@ SEQ_Poisson.i: SEQ_Poisson.c.i
 
 # target to preprocess a source file
 SEQ_Poisson.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Intro_to_HPC.dir\build.make CMakeFiles/Intro_to_HPC.dir/SEQ_Poisson.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/SEQ_Poisson.c.i
 .PHONY : SEQ_Poisson.c.i
 
 SEQ_Poisson.s: SEQ_Poisson.c.s
@@ -173,7 +173,7 @@ SEQ_Poisson.s: SEQ_Poisson.c.s
 
 # target to generate assembly for a file
 SEQ_Poisson.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Intro_to_HPC.dir\build.make CMakeFiles/Intro_to_HPC.dir/SEQ_Poisson.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/SEQ_Poisson.c.s
 .PHONY : SEQ_Poisson.c.s
 
 # Help Target
@@ -184,7 +184,7 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... Intro_to_HPC
+	@echo ... HPC
 	@echo ... MPI_Poisson.obj
 	@echo ... MPI_Poisson.i
 	@echo ... MPI_Poisson.s

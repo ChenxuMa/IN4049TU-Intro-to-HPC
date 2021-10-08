@@ -8,18 +8,18 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="E:/Intro_to_HPC/cmake-build-debug"/>
+				<Option working_dir="E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="Intro_to_HPC">
-				<Option output="E:/Intro_to_HPC/cmake-build-debug/Intro_to_HPC.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="E:/Intro_to_HPC/cmake-build-debug"/>
+			<Target title="HPC">
+				<Option output="E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/HPC.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -33,15 +33,15 @@
 					<Add directory="e:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 Intro_to_HPC"/>
-					<CompileFile command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 HPC"/>
+					<CompileFile command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="Intro_to_HPC/fast">
-				<Option output="E:/Intro_to_HPC/cmake-build-debug/Intro_to_HPC.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="E:/Intro_to_HPC/cmake-build-debug"/>
+			<Target title="HPC/fast">
+				<Option output="E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/HPC.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -55,43 +55,43 @@
 					<Add directory="e:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 Intro_to_HPC/fast"/>
-					<CompileFile command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 HPC/fast"/>
+					<CompileFile command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="E:/Intro_to_HPC/cmake-build-debug"/>
+				<Option working_dir="E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="E:/Intro_to_HPC/cmake-build-debug"/>
+				<Option working_dir="E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/Intro_to_HPC/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="E:/MinGW/bin/mingw32-make.exe -f &quot;E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="E:/Intro_to_HPC/MPI_Poisson.c">
-			<Option target="Intro_to_HPC"/>
+		<Unit filename="E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/MPI_Poisson.c">
+			<Option target="HPC"/>
 		</Unit>
-		<Unit filename="E:/Intro_to_HPC/SEQ_Poisson.c">
-			<Option target="Intro_to_HPC"/>
+		<Unit filename="E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/SEQ_Poisson.c">
+			<Option target="HPC"/>
 		</Unit>
-		<Unit filename="E:/Intro_to_HPC/input.dat">
-			<Option target="Intro_to_HPC"/>
+		<Unit filename="E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/input.dat">
+			<Option target="HPC"/>
 		</Unit>
-		<Unit filename="E:/Intro_to_HPC/CMakeLists.txt">
+		<Unit filename="E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

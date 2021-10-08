@@ -1,3 +1,0 @@
-"E:\Clion\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\Intro_to_HPC.dir/objects.a
-E:\MinGW\bin\ar.exe cr CMakeFiles\Intro_to_HPC.dir/objects.a @CMakeFiles\Intro_to_HPC.dir\objects1.rsp
-E:\MinGW\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\Intro_to_HPC.dir/objects.a -Wl,--no-whole-archive -o Intro_to_HPC.exe -Wl,--out-implib,libIntro_to_HPC.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Intro_to_HPC.dir\linklibs.rsp

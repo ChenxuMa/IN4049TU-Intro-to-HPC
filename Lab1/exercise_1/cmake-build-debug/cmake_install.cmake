@@ -1,4 +1,4 @@
-# Install script for directory: E:/Intro_to_HPC
+# Install script for directory: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "E:/Intro_to_HPC/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
