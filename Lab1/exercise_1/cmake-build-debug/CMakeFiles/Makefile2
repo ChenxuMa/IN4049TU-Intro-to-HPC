@@ -80,12 +80,12 @@ clean: CMakeFiles/HPC.dir/clean
 CMakeFiles/HPC.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles --progress-num=1,2,3 "Built target HPC"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target HPC"
 .PHONY : CMakeFiles/HPC.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/HPC.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/HPC.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles/HPC.dir/rule

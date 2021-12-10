@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/HPC.dir/MPI_Poisson.c.obj"
-  "CMakeFiles/HPC.dir/SEQ_Poisson.c.obj"
+  "CMakeFiles/HPC.dir/MPI_Poisson.obj"
   "HPC.exe"
   "HPC.exe.manifest"
   "HPC.pdb"

@@ -1,0 +1,246 @@
+The MPI test test_mpi for C in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_e0acf/fast && E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_e0acf.dir\build.make CMakeFiles/cmTC_e0acf.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e0acf.dir/test_mpi.c.obj
+E:\MinGW\mingw64\bin\gcc.exe    -o CMakeFiles\cmTC_e0acf.dir\test_mpi.c.obj -c "E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c"
+E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_e0acf.dir\build.make:77: CMakeFiles/cmTC_e0acf.dir/test_mpi.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:126: cmTC_e0acf/fast] Error 2
+
+
+
+The MPI test test_mpi for CXX in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_4f576/fast && E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_4f576.dir\build.make CMakeFiles/cmTC_4f576.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4f576.dir/test_mpi.cpp.obj
+E:\MinGW\mingw64\bin\g++.exe    -o CMakeFiles\cmTC_4f576.dir\test_mpi.cpp.obj -c E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp
+E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_4f576.dir\build.make:77: CMakeFiles/cmTC_4f576.dir/test_mpi.cpp.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:126: cmTC_4f576/fast] Error 2
+
+
+
+The MPI test test_mpi for C in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_8fb51/fast && E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_8fb51.dir\build.make CMakeFiles/cmTC_8fb51.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8fb51.dir/test_mpi.c.obj
+E:\MinGW\mingw64\bin\gcc.exe    -o CMakeFiles\cmTC_8fb51.dir\test_mpi.c.obj -c "E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c"
+E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_8fb51.dir\build.make:77: CMakeFiles/cmTC_8fb51.dir/test_mpi.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:126: cmTC_8fb51/fast] Error 2
+
+
+
+The MPI test test_mpi for CXX in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_f86af/fast && E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_f86af.dir\build.make CMakeFiles/cmTC_f86af.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_f86af.dir/test_mpi.cpp.obj
+E:\MinGW\mingw64\bin\g++.exe    -o CMakeFiles\cmTC_f86af.dir\test_mpi.cpp.obj -c E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp
+E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_f86af.dir\build.make:77: CMakeFiles/cmTC_f86af.dir/test_mpi.cpp.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:126: cmTC_f86af/fast] Error 2
+
+
+
+The MPI test test_mpi for C in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_79766/fast && E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_79766.dir\build.make CMakeFiles/cmTC_79766.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_79766.dir/test_mpi.c.obj
+E:\MinGW\mingw64\bin\gcc.exe    -o CMakeFiles\cmTC_79766.dir\test_mpi.c.obj -c "E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c"
+E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_79766.dir\build.make:77: CMakeFiles/cmTC_79766.dir/test_mpi.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:126: cmTC_79766/fast] Error 2
+
+
+
+The MPI test test_mpi for CXX in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_62fb9/fast && E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_62fb9.dir\build.make CMakeFiles/cmTC_62fb9.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_62fb9.dir/test_mpi.cpp.obj
+E:\MinGW\mingw64\bin\g++.exe    -o CMakeFiles\cmTC_62fb9.dir\test_mpi.cpp.obj -c E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp
+E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_62fb9.dir\build.make:77: CMakeFiles/cmTC_62fb9.dir/test_mpi.cpp.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:126: cmTC_62fb9/fast] Error 2
+
+
+
+The MPI test test_mpi for C in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_d595d/fast && E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_d595d.dir\build.make CMakeFiles/cmTC_d595d.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d595d.dir/test_mpi.c.obj
+E:\MinGW\mingw64\bin\gcc.exe    -o CMakeFiles\cmTC_d595d.dir\test_mpi.c.obj -c "E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c"
+E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_d595d.dir\build.make:77: CMakeFiles/cmTC_d595d.dir/test_mpi.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:126: cmTC_d595d/fast] Error 2
+
+
+
+The MPI test test_mpi for CXX in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_630b6/fast && E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_630b6.dir\build.make CMakeFiles/cmTC_630b6.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_630b6.dir/test_mpi.cpp.obj
+E:\MinGW\mingw64\bin\g++.exe   -std=gnu++14 -o CMakeFiles\cmTC_630b6.dir\test_mpi.cpp.obj -c E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp
+E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_630b6.dir\build.make:77: CMakeFiles/cmTC_630b6.dir/test_mpi.cpp.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:126: cmTC_630b6/fast] Error 2
+
+
+
+The MPI test test_mpi for C in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_592b7/fast && mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_592b7.dir\build.make CMakeFiles/cmTC_592b7.dir/build
+mingw32-make.exe[2]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_592b7.dir/test_mpi.c.obj
+E:\MinGW\mingw64\bin\gcc.exe    -o CMakeFiles\cmTC_592b7.dir\test_mpi.c.obj -c "E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c"
+E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[2]: *** [CMakeFiles\cmTC_592b7.dir\build.make:77: CMakeFiles/cmTC_592b7.dir/test_mpi.c.obj] Error 1
+mingw32-make.exe[2]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe[1]: *** [Makefile:126: cmTC_592b7/fast] Error 2
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+The MPI test test_mpi for CXX in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_cd0ef/fast && mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_cd0ef.dir\build.make CMakeFiles/cmTC_cd0ef.dir/build
+mingw32-make.exe[2]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_cd0ef.dir/test_mpi.cpp.obj
+E:\MinGW\mingw64\bin\g++.exe   -std=gnu++14 -o CMakeFiles\cmTC_cd0ef.dir\test_mpi.cpp.obj -c E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp
+E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[2]: *** [CMakeFiles\cmTC_cd0ef.dir\build.make:77: CMakeFiles/cmTC_cd0ef.dir/test_mpi.cpp.obj] Error 1
+mingw32-make.exe[2]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe[1]: *** [Makefile:126: cmTC_cd0ef/fast] Error 2
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+The MPI test test_mpi for C in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_35d90/fast && mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_35d90.dir\build.make CMakeFiles/cmTC_35d90.dir/build
+mingw32-make.exe[2]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_35d90.dir/test_mpi.c.obj
+E:\MinGW\mingw64\bin\gcc.exe    -o CMakeFiles\cmTC_35d90.dir\test_mpi.c.obj -c "E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c"
+E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[2]: *** [CMakeFiles\cmTC_35d90.dir\build.make:77: CMakeFiles/cmTC_35d90.dir/test_mpi.c.obj] Error 1
+mingw32-make.exe[2]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe[1]: *** [Makefile:126: cmTC_35d90/fast] Error 2
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+The MPI test test_mpi for CXX in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_c9783/fast && mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_c9783.dir\build.make CMakeFiles/cmTC_c9783.dir/build
+mingw32-make.exe[2]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_c9783.dir/test_mpi.cpp.obj
+E:\MinGW\mingw64\bin\g++.exe   -std=gnu++14 -o CMakeFiles\cmTC_c9783.dir\test_mpi.cpp.obj -c E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp
+E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[2]: *** [CMakeFiles\cmTC_c9783.dir\build.make:77: CMakeFiles/cmTC_c9783.dir/test_mpi.cpp.obj] Error 1
+mingw32-make.exe[2]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe[1]: *** [Makefile:126: cmTC_c9783/fast] Error 2
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+The MPI test test_mpi for C in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_5a379/fast && E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_5a379.dir\build.make CMakeFiles/cmTC_5a379.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5a379.dir/test_mpi.c.obj
+E:\MinGW\mingw64\bin\gcc.exe    -o CMakeFiles\cmTC_5a379.dir\test_mpi.c.obj -c "E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c"
+E:\Clion\CLion 2021.2.2\bin\cmake\win\share\cmake-3.20\Modules\FindMPI\test_mpi.c:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_5a379.dir\build.make:77: CMakeFiles/cmTC_5a379.dir/test_mpi.c.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:126: cmTC_5a379/fast] Error 2
+
+
+
+The MPI test test_mpi for CXX in mode normal failed to compile with the following output:
+Change Dir: E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):E:/MinGW/mingw64/bin/mingw32-make.exe -f Makefile cmTC_34b0c/fast && E:/MinGW/mingw64/bin/mingw32-make.exe  -f CMakeFiles\cmTC_34b0c.dir\build.make CMakeFiles/cmTC_34b0c.dir/build
+mingw32-make.exe[1]: Entering directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_34b0c.dir/test_mpi.cpp.obj
+E:\MinGW\mingw64\bin\g++.exe   -std=gnu++14 -o CMakeFiles\cmTC_34b0c.dir\test_mpi.cpp.obj -c E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp
+E:\HPC\IN4049TU-Intro-to-HPC\Lab1\exercise_1\cmake-build-debug\CMakeFiles\FindMPI\test_mpi.cpp:1:10: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+          ^~~~~~~
+compilation terminated.
+mingw32-make.exe[1]: *** [CMakeFiles\cmTC_34b0c.dir\build.make:77: CMakeFiles/cmTC_34b0c.dir/test_mpi.cpp.obj] Error 1
+mingw32-make.exe[1]: Leaving directory 'E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/CMakeTmp'
+mingw32-make.exe: *** [Makefile:126: cmTC_34b0c/fast] Error 2
+
+
+

@@ -128,53 +128,20 @@ HPC/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/build
 .PHONY : HPC/fast
 
-MPI_Poisson.obj: MPI_Poisson.c.obj
+# target to build an object file
+MPI_Poisson.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/MPI_Poisson.obj
 .PHONY : MPI_Poisson.obj
 
-# target to build an object file
-MPI_Poisson.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/MPI_Poisson.c.obj
-.PHONY : MPI_Poisson.c.obj
-
-MPI_Poisson.i: MPI_Poisson.c.i
+# target to preprocess a source file
+MPI_Poisson.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/MPI_Poisson.i
 .PHONY : MPI_Poisson.i
 
-# target to preprocess a source file
-MPI_Poisson.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/MPI_Poisson.c.i
-.PHONY : MPI_Poisson.c.i
-
-MPI_Poisson.s: MPI_Poisson.c.s
+# target to generate assembly for a file
+MPI_Poisson.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/MPI_Poisson.s
 .PHONY : MPI_Poisson.s
-
-# target to generate assembly for a file
-MPI_Poisson.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/MPI_Poisson.c.s
-.PHONY : MPI_Poisson.c.s
-
-SEQ_Poisson.obj: SEQ_Poisson.c.obj
-.PHONY : SEQ_Poisson.obj
-
-# target to build an object file
-SEQ_Poisson.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/SEQ_Poisson.c.obj
-.PHONY : SEQ_Poisson.c.obj
-
-SEQ_Poisson.i: SEQ_Poisson.c.i
-.PHONY : SEQ_Poisson.i
-
-# target to preprocess a source file
-SEQ_Poisson.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/SEQ_Poisson.c.i
-.PHONY : SEQ_Poisson.c.i
-
-SEQ_Poisson.s: SEQ_Poisson.c.s
-.PHONY : SEQ_Poisson.s
-
-# target to generate assembly for a file
-SEQ_Poisson.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\HPC.dir\build.make CMakeFiles/HPC.dir/SEQ_Poisson.c.s
-.PHONY : SEQ_Poisson.c.s
 
 # Help Target
 help:
@@ -188,9 +155,6 @@ help:
 	@echo ... MPI_Poisson.obj
 	@echo ... MPI_Poisson.i
 	@echo ... MPI_Poisson.s
-	@echo ... SEQ_Poisson.obj
-	@echo ... SEQ_Poisson.i
-	@echo ... SEQ_Poisson.s
 .PHONY : help
 
 

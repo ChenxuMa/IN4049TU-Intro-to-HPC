@@ -8,8 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/MPI_Poisson.c" "E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/HPC.dir/MPI_Poisson.c.obj"
-  "E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/SEQ_Poisson.c" "E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/HPC.dir/SEQ_Poisson.c.obj"
+  "E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/MPI_Poisson.c" "E:/HPC/IN4049TU-Intro-to-HPC/Lab1/exercise_1/cmake-build-debug/CMakeFiles/HPC.dir/MPI_Poisson.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

@@ -48,7 +48,6 @@
 
 #ifndef MPI_INCLUDED
 #define MPI_INCLUDED
-
 #include <stdint.h>
 #ifndef MSMPI_NO_SAL
 #include <sal.h>
