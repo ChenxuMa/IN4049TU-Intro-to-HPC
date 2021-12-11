@@ -33,6 +33,7 @@ MPI_Datatype border_type[2];
 int proc_top, proc_right, proc_bottom, proc_left;
 int P;
 int P_grid[2]; /*Processgrid dimension*/
+int global_parity;
 MPI_Comm grid_comm;
 MPI_Status status;
 
@@ -176,7 +177,6 @@ void Setup_Grid()
   offset[Y_DIR]=gridsize[Y_DIR]*proc_coord[Y_DIR]/P_grid[Y_DIR];
   upper_offset[X_DIR]=gridsize[X_DIR]*(proc_coord[X_DIR]+1)/P_grid[X_DIR];
   upper_offset[Y_DIR]=gridsize[Y_DIR]*(proc_coord[Y_DIR]+1)/P_grid[Y_DIR];
-
   dim[X_DIR]=upper_offset[X_DIR]-offset[X_DIR];
   dim[Y_DIR]=upper_offset[Y_DIR]-offset[Y_DIR];
 
@@ -261,11 +261,11 @@ void Exchange_Borders(){
     MPI_Sendrecv(&phi[1][dim[Y_DIR]-2], 1, border_type[Y_DIR], proc_bottom, 0,
                  &phi[1][0], 1, border_type[Y_DIR], proc_top, 0,
                  grid_comm, &status);
-    MPI_Sendrecv(&phi[1][1], 1, border_type[X_DIR], proc_right, 0,
-                 &phi[dim[X_DIR]-1][1], 1, border_type[X_DIR], proc_left, 0,
+    MPI_Sendrecv(&phi[dim[X_DIR] - 2][1], 1, border_type[X_DIR], proc_right, 0,
+                 &phi[0][1], 1, border_type[X_DIR], proc_left, 0,
                  grid_comm, &status);
-    MPI_Sendrecv(&phi[dim[X_DIR]-2][1], 1, border_type[X_DIR], proc_left, 0,
-                 &phi[0][1], 1, border_type[X_DIR], proc_right, 0,
+    MPI_Sendrecv(&phi[1][1], 1, border_type[X_DIR], proc_left, 0,
+                 &phi[dim[X_DIR] - 1][1], 1, border_type[X_DIR], proc_right, 0,
                  grid_comm, &status);
 }
 double Do_Step(int parity)
@@ -299,14 +299,17 @@ void Solve()
   Debug("Solve", 0);
 
   /* give global_delta a higher value then precision_goal */
-  delta = 2 * precision_goal;
-  MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
+  global_delta = 2 * precision_goal;
+  //MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
   while (global_delta > precision_goal && count < max_iter)
   {
+
+      //global_parity=0;
     Debug("Do_Step 0", 0);
     delta1 = Do_Step(0);
     Exchange_Borders();
     Debug("Do_Step 1", 0);
+      //global_parity=1;
     delta2 = Do_Step(1);
     Exchange_Borders();
     delta = max(delta1, delta2);
@@ -324,7 +327,8 @@ void Write_Grid()
   FILE *f;
   char filename[40];
   printf("process %i", proc_rank);
-  sprintf(filename, "output%i.dat", proc_rank);
+
+    sprintf(filename, "output%i.dat", proc_rank);
   puts(filename);
   if ((f = fopen(filename, "w")) == NULL)
     Debug("Write_Grid : fopen failed", 1);
@@ -333,7 +337,9 @@ void Write_Grid()
 
   for (x = 1; x < dim[X_DIR] - 1; x++)
     for (y = 1; y < dim[Y_DIR] - 1; y++)
-      fprintf(f, "%i %i %f\n", x, y, phi[x][y]);
+        fprintf(f, "%i %i %f\n", x+offset[X_DIR], y+offset[Y_DIR], phi[x][y]);
+
+
 
   fclose(f);
 }

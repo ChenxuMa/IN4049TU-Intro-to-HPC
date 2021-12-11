@@ -166,6 +166,7 @@ double Do_Step(int parity)
 	old_phi = phi[x][y];
 	phi[x][y] = (phi[x + 1][y] + phi[x - 1][y] +
 		     phi[x][y + 1] + phi[x][y - 1]) * 0.25;
+
 	if (max_err < fabs(old_phi - phi[x][y]))
 	  max_err = fabs(old_phi - phi[x][y]);
       }
@@ -183,15 +184,12 @@ void Solve()
 
   /* give global_delta a higher value then precision_goal */
   delta = 2 * precision_goal;
-
   while (delta > precision_goal && count < max_iter)
   {
     Debug("Do_Step 0", 0);
     delta1 = Do_Step(0);
-
     Debug("Do_Step 1", 0);
     delta2 = Do_Step(1);
-
     delta = max(delta1, delta2);
     count++;
   }
