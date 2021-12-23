@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-
+#include <string.h>
 #define DEBUG 0
 
 #define max(a,b) ((a)>(b)?a:b)
@@ -29,6 +29,7 @@ int np, proc_rank;
 double wtime;
 int proc_coord[2];
 int offset[2];
+
 MPI_Datatype border_type[2];
 int proc_top, proc_right, proc_bottom, proc_left;
 int P;
@@ -60,7 +61,7 @@ void start_timer();
 void resume_timer();
 void stop_timer();
 void print_timer();
-
+void Merge_files(int P);
 
 void start_timer()
 {
@@ -179,7 +180,6 @@ void Setup_Grid()
   upper_offset[Y_DIR]=gridsize[Y_DIR]*(proc_coord[Y_DIR]+1)/P_grid[Y_DIR];
   dim[X_DIR]=upper_offset[X_DIR]-offset[X_DIR];
   dim[Y_DIR]=upper_offset[Y_DIR]-offset[Y_DIR];
-
   dim[X_DIR]+=2;
   dim[Y_DIR]+=2;
   /* allocate memory */
@@ -191,6 +191,8 @@ void Setup_Grid()
     Debug("Setup_Subgrid : malloc(*phi) failed", 1);
   if ((source[0] = malloc(dim[Y_DIR] * dim[X_DIR] * sizeof(**source))) == NULL)
     Debug("Setup_Subgrid : malloc(*source) failed", 1);
+//  printf("size of phi: %llu", sizeof(*phi));
+//  printf("size of **phi: %llu", sizeof(**phi));
   for (x = 1; x < dim[X_DIR]; x++)
   {
     phi[x] = phi[0] + x * dim[Y_DIR];
@@ -228,7 +230,7 @@ void Setup_Grid()
           phi[x][y] = source_val;
           source[x][y] = 1;
       }
-      printf("process_id: %i\n", proc_rank);
+      //printf("process_id: %i\n", proc_rank);
     }
   }
   while (s==3);
@@ -270,53 +272,107 @@ void Exchange_Borders(){
 }
 double Do_Step(int parity)
 {
-  int x, y;
-  double old_phi;
-  double max_err = 0.0;
-
-  /* calculate interior of grid */
-  for (x = 1; x < dim[X_DIR] - 1; x++)
-    for (y = 1; y < dim[Y_DIR] - 1; y++)
-      if ((x + y) % 2 == parity && source[x][y] != 1)
-      {
-	old_phi = phi[x][y];
-	phi[x][y] = (phi[x + 1][y] + phi[x - 1][y] +
-		     phi[x][y + 1] + phi[x][y - 1]) * 0.25;
-	if (max_err < fabs(old_phi - phi[x][y]))
-	  max_err = fabs(old_phi - phi[x][y]);
-      }
-
-  return max_err;
+    int x, y;
+    double old_phi;
+    double c = 0.0;
+    double max_err = 0.0;
+    int y_calibration=0;
+    double OMEGA=1.95;
+    /* calculate interior of grid */
+    for (x = 1; x < dim[X_DIR] - 1; x++) {
+        y_calibration=(x+offset[X_DIR]+parity+1)%2;
+        for(y=1+y_calibration;y<dim[Y_DIR]-1;y+=2){
+            if (source[x][y] != 1)
+            {
+                old_phi = phi[x][y];
+                phi[x][y]=old_phi+OMEGA*((phi[x + 1][y] + phi[x - 1][y] +
+                                          phi[x][y + 1] + phi[x][y - 1]) * 0.25-old_phi);
+                if (max_err < fabs(old_phi - phi[x][y]))
+                    max_err = fabs(old_phi - phi[x][y]);
+            }
+        }
+    }
+//    for(x=1;x<dim[X_DIR]-1;x++){
+//        for (y = 1; y < dim[Y_DIR] - 1; y++){
+//            if ((x + offset[X_DIR] + y + offset[Y_DIR]) % 2 == parity && source[x][y] != 1){
+//                old_phi = phi[x][y];
+//                phi[x][y]=old_phi+OMEGA*((phi[x + 1][y] + phi[x - 1][y] +
+//                                          phi[x][y + 1] + phi[x][y - 1]) * 0.25-old_phi);
+//                if (max_err < fabs(old_phi - phi[x][y]))
+//                    max_err = fabs(old_phi - phi[x][y]);
+//            }
+//
+//        }
+//    }
+    return max_err;
 }
+
 
 void Solve()
 {
   int count = 0;
   double delta;
-  double delta1, delta2;
+  double delta1, delta2, delta3, delta4, delta5, delta6, delta7, delta8, delta9, delta10;
+  double delta_1, delta_2, delta_3, delta_4, delta_5;
   double global_delta;
-
+  double border_exchange_start_point, border_exchange_end_point;
+  double total_communication_time=0;
   Debug("Solve", 0);
 
   /* give global_delta a higher value then precision_goal */
   global_delta = 2 * precision_goal;
-  //MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
   while (global_delta > precision_goal && count < max_iter)
   {
 
       //global_parity=0;
     Debug("Do_Step 0", 0);
     delta1 = Do_Step(0);
+    border_exchange_start_point=MPI_Wtime();
     Exchange_Borders();
+    border_exchange_end_point=MPI_Wtime();
+    //printf("process: %i. Execution time for the first exchange_borders(): %f\n", proc_rank, border_exchange_end_point-border_exchange_start_point);
+    total_communication_time=total_communication_time+border_exchange_end_point-border_exchange_start_point;
     Debug("Do_Step 1", 0);
-      //global_parity=1;
-    delta2 = Do_Step(1);
+    delta2= Do_Step(1);
+      border_exchange_start_point=MPI_Wtime();
     Exchange_Borders();
-    delta = max(delta1, delta2);
+      border_exchange_end_point=MPI_Wtime();
+      total_communication_time=total_communication_time+border_exchange_end_point-border_exchange_start_point;
+      //printf("process: %i. Execution time for the first exchange_borders(): %f\n", proc_rank, border_exchange_end_point-border_exchange_start_point);
+//    delta_1=max(delta1, delta2);
+//      Exchange_Borders();
+//      delta3= Do_Step(0);
+//
+//
+//    delta4= Do_Step(1);
+//
+//      //global_parity=1;
+//      delta_2=max(delta3, delta4);
+//      Exchange_Borders();
+//      delta5= Do_Step(0);
+//
+//      delta6= Do_Step(1);
+//
+//      delta_3=max(delta5, delta6);
+//      Exchange_Borders();
+//      delta7= Do_Step(0);
+//
+//      delta8= Do_Step(1);
+//
+//      delta_4=max(delta7, delta8);
+//      Exchange_Borders();
+//      delta8= Do_Step(0);
+//
+//      delta9= Do_Step(1);
+//
+//      delta_5=max(delta8, delta9);
+//      Exchange_Borders();
+//    delta = max(max(delta_1, delta_2), delta_3);
+    delta=max(delta1, delta2);
     MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
     count++;
   }
-
+  printf("The process %i, total communication time: %f s\n", proc_rank, total_communication_time);
   //printf("Number of iterations : %i\n", count);
   printf("The process %i. Number of iterations: %i\n", proc_rank, count);
 }
@@ -326,7 +382,7 @@ void Write_Grid()
   int x, y;
   FILE *f;
   char filename[40];
-  printf("process %i", proc_rank);
+//  printf("process %i", proc_rank);
 
     sprintf(filename, "output%i.dat", proc_rank);
   puts(filename);
@@ -354,6 +410,42 @@ void Clean_Up()
   free(source);
 }
 
+void Merge_files(int P){
+
+        if(proc_rank==0){
+
+            char file_name2[80];
+            for(int i=0;i<P;i++) {
+                char file_name1[100] = "output";
+
+                sprintf(file_name2, "%d", i);
+                char *file_name3 = ".dat";
+                char *final_file_name = "final_output.dat";
+                int c;
+                char buff[255];
+                strcat(file_name2, file_name3);
+                strcat(file_name1, file_name2);
+                FILE *f = fopen(file_name1, "r");
+                FILE *final = fopen(final_file_name, "a");
+                if(f==NULL){
+                puts("could not open files");
+                exit(0);
+                }
+                while(fgets(buff, sizeof(buff), f)!=NULL){
+                    fputs(buff, final);
+                }
+                fclose(f);
+                fclose(final);
+            }
+            printf("merge files complete!\n");
+        }
+
+
+
+
+
+
+}
 int main(int argc, char **argv)
 {
     MPI_Init(&argc, &argv);
@@ -366,11 +458,14 @@ int main(int argc, char **argv)
       Solve();
 
       Write_Grid();
-
       print_timer();
 
       Clean_Up();
+
+      Merge_files(P);
       MPI_Finalize();
+
+
   return 0;
 }
 
