@@ -1,7 +1,3 @@
-/*
- * SEQ_Poisson.c
- * 2D Poison equation solver
-*/
 #include "mpi.h"
 //#include "mpi.h"
 #include <stdio.h>
@@ -16,7 +12,7 @@
 
 enum
 {
-  X_DIR, Y_DIR
+    X_DIR, Y_DIR
 };
 
 /* global variables */
@@ -29,7 +25,7 @@ int np, proc_rank;
 double wtime;
 int proc_coord[2];
 int offset[2];
-
+unsigned long long total_data_communicated=0;
 MPI_Datatype border_type[2];
 int proc_top, proc_right, proc_bottom, proc_left;
 int P;
@@ -37,7 +33,8 @@ int P_grid[2]; /*Processgrid dimension*/
 int global_parity;
 MPI_Comm grid_comm;
 MPI_Status status;
-
+double border_exchange_start_point, border_exchange_end_point;
+double total_communication_time=0;
 
 /* benchmark related variables */
 clock_t ticks;			/* number of systemticks */
@@ -65,60 +62,60 @@ void Merge_files(int P);
 
 void start_timer()
 {
-  if (!timer_on)
-  {
-      MPI_Barrier(MPI_COMM_WORLD);
+    if (!timer_on)
+    {
+        MPI_Barrier(MPI_COMM_WORLD);
 
-    ticks = clock();
+        ticks = clock();
 
-    wtime=MPI_Wtime();
-    timer_on = 1;
-  }
+        wtime=MPI_Wtime();
+        timer_on = 1;
+    }
 }
 
 
 void resume_timer()
 {
-  if (!timer_on)
-  {
-    ticks = clock() - ticks;
-    wtime=MPI_Wtime()-wtime;
-    timer_on = 1;
-  }
+    if (!timer_on)
+    {
+        ticks = clock() - ticks;
+        wtime=MPI_Wtime()-wtime;
+        timer_on = 1;
+    }
 }
 
 void stop_timer()
 {
-  if (timer_on)
-  {
-    ticks = clock() - ticks;
-    wtime=MPI_Wtime()-wtime;
-    timer_on = 0;
-  }
+    if (timer_on)
+    {
+        ticks = clock() - ticks;
+        wtime=MPI_Wtime()-wtime;
+        timer_on = 0;
+    }
 }
 
 void print_timer()
 {
-  if (timer_on)
-  {
-    stop_timer();
-    printf("(%i) Elasped time: %14.6f s (%5.1f%% CPU) \n"
-           , proc_rank, wtime, 100.0*ticks*(1.0/CLOCKS_PER_SEC)/wtime);
-    //printf("Elapsed processortime: %14.6f s\n", ticks * (1.0 / CLOCKS_PER_SEC));
-    resume_timer();
-  }
-  else
-      printf("(%i) Elasped time: %14.6f s (%5.1f%% CPU) \n"
-              , proc_rank, wtime, 100.0*ticks*(1.0/CLOCKS_PER_SEC)/wtime);
+    if (timer_on)
+    {
+        stop_timer();
+        printf("(%i) Elasped time: %14.6f s (%5.1f%% CPU) \n"
+                , proc_rank, wtime, 100.0*ticks*(1.0/CLOCKS_PER_SEC)/wtime);
+        //printf("Elapsed processortime: %14.6f s\n", ticks * (1.0 / CLOCKS_PER_SEC));
+        resume_timer();
+    }
+    else
+        printf("(%i) Elasped time: %14.6f s (%5.1f%% CPU) \n"
+                , proc_rank, wtime, 100.0*ticks*(1.0/CLOCKS_PER_SEC)/wtime);
     //printf("Elapsed processortime: %14.6f s\n", ticks * (1.0 / CLOCKS_PER_SEC));
 }
 
 void Debug(char *mesg, int terminate)
 {
-  if (DEBUG || terminate)
-    printf("%s\n", mesg);
-  if (terminate)
-    exit(1);
+    if (DEBUG || terminate)
+        printf("%s\n", mesg);
+    if (terminate)
+        exit(1);
 }
 void Setup_Proc_Grid(int argc, char **argv) {
     int wrap_around[2];
@@ -140,7 +137,6 @@ void Setup_Proc_Grid(int argc, char **argv) {
     MPI_Cart_create(MPI_COMM_WORLD, 2, P_grid, wrap_around, reorder, &grid_comm);
     MPI_Comm_rank(grid_comm, &proc_rank);
     MPI_Cart_coords(grid_comm, proc_rank, sizeof(proc_coord), proc_coord);
-    printf("(%i)(x,y)=(%i,%i)\n", proc_rank, proc_coord[X_DIR], proc_coord[Y_DIR]);
     MPI_Cart_shift(grid_comm, Y_DIR, 1, &proc_top, &proc_bottom); /* rank of processes proc_top and proc_bottom */
     MPI_Cart_shift(grid_comm, X_DIR, 1, &proc_left, &proc_right);
     if(DEBUG){
@@ -150,93 +146,93 @@ void Setup_Proc_Grid(int argc, char **argv) {
 }
 void Setup_Grid()
 {
-  int x, y, s;
-  double source_x, source_y, source_val;
-  FILE *f;
-  int upper_offset[2];
-  Debug("Setup_Subgrid", 0);
-  if(proc_rank==0){
-      f = fopen("input.dat", "r");
-      if (f == NULL)
-          Debug("Error opening input.dat", 1);
-      fscanf(f, "nx: %i\n", &gridsize[X_DIR]);
-      fscanf(f, "ny: %i\n", &gridsize[Y_DIR]);
-      fscanf(f, "precision goal: %lf\n", &precision_goal);
-      fscanf(f, "max iterations: %i\n", &max_iter);
-  }
-  MPI_Bcast(&gridsize, 2, MPI_INT, 0, grid_comm);
-  MPI_Bcast(&precision_goal, 1, MPI_DOUBLE, 0, grid_comm);
-  MPI_Bcast(&max_iter, 1, MPI_INT, 0, grid_comm);
+    int x, y, s;
+    double source_x, source_y, source_val;
+    FILE *f;
+    int upper_offset[2];
+    Debug("Setup_Subgrid", 0);
+    if(proc_rank==0){
+        f = fopen("input.dat", "r");
+        if (f == NULL)
+            Debug("Error opening input.dat", 1);
+        fscanf(f, "nx: %i\n", &gridsize[X_DIR]);
+        fscanf(f, "ny: %i\n", &gridsize[Y_DIR]);
+        fscanf(f, "precision goal: %lf\n", &precision_goal);
+        fscanf(f, "max iterations: %i\n", &max_iter);
+    }
+    MPI_Bcast(&gridsize, 2, MPI_INT, 0, grid_comm);
+    MPI_Bcast(&precision_goal, 1, MPI_DOUBLE, 0, grid_comm);
+    MPI_Bcast(&max_iter, 1, MPI_INT, 0, grid_comm);
 
-  /* Calculate dimensions of local subgrid */
-  /*
-  dim[X_DIR] = gridsize[X_DIR] + 2;
-  dim[Y_DIR] = gridsize[Y_DIR] + 2;
-   */
+    /* Calculate dimensions of local subgrid */
+    /*
+    dim[X_DIR] = gridsize[X_DIR] + 2;
+    dim[Y_DIR] = gridsize[Y_DIR] + 2;
+     */
 
-  offset[X_DIR]=gridsize[X_DIR]*proc_coord[X_DIR]/P_grid[X_DIR];
-  offset[Y_DIR]=gridsize[Y_DIR]*proc_coord[Y_DIR]/P_grid[Y_DIR];
-  upper_offset[X_DIR]=gridsize[X_DIR]*(proc_coord[X_DIR]+1)/P_grid[X_DIR];
-  upper_offset[Y_DIR]=gridsize[Y_DIR]*(proc_coord[Y_DIR]+1)/P_grid[Y_DIR];
-  dim[X_DIR]=upper_offset[X_DIR]-offset[X_DIR];
-  dim[Y_DIR]=upper_offset[Y_DIR]-offset[Y_DIR];
-  dim[X_DIR]+=2;
-  dim[Y_DIR]+=2;
-  /* allocate memory */
-  if ((phi = malloc(dim[X_DIR] * sizeof(*phi))) == NULL)
-    Debug("Setup_Subgrid : malloc(phi) failed", 1);
-  if ((source = malloc(dim[X_DIR] * sizeof(*source))) == NULL)
-    Debug("Setup_Subgrid : malloc(source) failed", 1);
-  if ((phi[0] = malloc(dim[Y_DIR] * dim[X_DIR] * sizeof(**phi))) == NULL)
-    Debug("Setup_Subgrid : malloc(*phi) failed", 1);
-  if ((source[0] = malloc(dim[Y_DIR] * dim[X_DIR] * sizeof(**source))) == NULL)
-    Debug("Setup_Subgrid : malloc(*source) failed", 1);
+    offset[X_DIR]=gridsize[X_DIR]*proc_coord[X_DIR]/P_grid[X_DIR];
+    offset[Y_DIR]=gridsize[Y_DIR]*proc_coord[Y_DIR]/P_grid[Y_DIR];
+    upper_offset[X_DIR]=gridsize[X_DIR]*(proc_coord[X_DIR]+1)/P_grid[X_DIR];
+    upper_offset[Y_DIR]=gridsize[Y_DIR]*(proc_coord[Y_DIR]+1)/P_grid[Y_DIR];
+    dim[X_DIR]=upper_offset[X_DIR]-offset[X_DIR];
+    dim[Y_DIR]=upper_offset[Y_DIR]-offset[Y_DIR];
+    dim[X_DIR]+=2;
+    dim[Y_DIR]+=2;
+    /* allocate memory */
+    if ((phi = malloc(dim[X_DIR] * sizeof(*phi))) == NULL)
+        Debug("Setup_Subgrid : malloc(phi) failed", 1);
+    if ((source = malloc(dim[X_DIR] * sizeof(*source))) == NULL)
+        Debug("Setup_Subgrid : malloc(source) failed", 1);
+    if ((phi[0] = malloc(dim[Y_DIR] * dim[X_DIR] * sizeof(**phi))) == NULL)
+        Debug("Setup_Subgrid : malloc(*phi) failed", 1);
+    if ((source[0] = malloc(dim[Y_DIR] * dim[X_DIR] * sizeof(**source))) == NULL)
+        Debug("Setup_Subgrid : malloc(*source) failed", 1);
 //  printf("size of phi: %llu", sizeof(*phi));
 //  printf("size of **phi: %llu", sizeof(**phi));
-  for (x = 1; x < dim[X_DIR]; x++)
-  {
-    phi[x] = phi[0] + x * dim[Y_DIR];
-    source[x] = source[0] + x * dim[Y_DIR];
-  }
-
-  /* set all values to '0' */
-  for (x = 0; x < dim[X_DIR]; x++)
-    for (y = 0; y < dim[Y_DIR]; y++)
+    for (x = 1; x < dim[X_DIR]; x++)
     {
-      phi[x][y] = 0.0;
-      source[x][y] = 0;
+        phi[x] = phi[0] + x * dim[Y_DIR];
+        source[x] = source[0] + x * dim[Y_DIR];
     }
 
-  /* put sources in field */
-  do
-  {
-      if(proc_rank==0){
-          s = fscanf(f, "source: %lf %lf %lf\n", &source_x, &source_y, &source_val);
-      }
-      MPI_Bcast(&s, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    if (s==3)
-    {
-        MPI_Bcast(&source_x, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-        MPI_Bcast(&source_y, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-        MPI_Bcast(&source_val, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-      x = source_x * gridsize[X_DIR];
-      y = source_y * gridsize[Y_DIR];
+    /* set all values to '0' */
+    for (x = 0; x < dim[X_DIR]; x++)
+        for (y = 0; y < dim[Y_DIR]; y++)
+        {
+            phi[x][y] = 0.0;
+            source[x][y] = 0;
+        }
 
-      x += 1;
-      y += 1;
-      x=x-offset[X_DIR];
-      y=y-offset[Y_DIR];
-      if(x>0&&x<dim[X_DIR]-1&&y>0&&y<dim[Y_DIR]-1){
-          phi[x][y] = source_val;
-          source[x][y] = 1;
-      }
-      //printf("process_id: %i\n", proc_rank);
+    /* put sources in field */
+    do
+    {
+        if(proc_rank==0){
+            s = fscanf(f, "source: %lf %lf %lf\n", &source_x, &source_y, &source_val);
+        }
+        MPI_Bcast(&s, 1, MPI_INT, 0, MPI_COMM_WORLD);
+        if (s==3)
+        {
+            MPI_Bcast(&source_x, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+            MPI_Bcast(&source_y, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+            MPI_Bcast(&source_val, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+            x = source_x * gridsize[X_DIR];
+            y = source_y * gridsize[Y_DIR];
+
+            x += 1;
+            y += 1;
+            x=x-offset[X_DIR];
+            y=y-offset[Y_DIR];
+            if(x>0&&x<dim[X_DIR]-1&&y>0&&y<dim[Y_DIR]-1){
+                phi[x][y] = source_val;
+                source[x][y] = 1;
+            }
+            //printf("process_id: %i\n", proc_rank);
+        }
     }
-  }
-  while (s==3);
-  if(proc_rank==0){
-      fclose(f);
-  }
+    while (s==3);
+    if(proc_rank==0){
+        fclose(f);
+    }
 
 }
 void Setup_MPI_Datatypes(){
@@ -269,6 +265,7 @@ void Exchange_Borders(){
     MPI_Sendrecv(&phi[1][1], 1, border_type[X_DIR], proc_left, 0,
                  &phi[dim[X_DIR] - 1][1], 1, border_type[X_DIR], proc_right, 0,
                  grid_comm, &status);
+    total_data_communicated=total_data_communicated+(dim[X_DIR]-2)*2+(dim[Y_DIR]-2)*2;
 }
 double Do_Step(int parity)
 {
@@ -310,35 +307,42 @@ double Do_Step(int parity)
 
 void Solve()
 {
-  int count = 0;
-  double delta;
-  double delta1, delta2, delta3, delta4, delta5, delta6, delta7, delta8, delta9, delta10;
-  double delta_1, delta_2, delta_3, delta_4, delta_5;
-  double global_delta;
-  double border_exchange_start_point, border_exchange_end_point;
-  double total_communication_time=0;
-  Debug("Solve", 0);
+    int count = 0;
+    double delta;
+    double delta1, delta2, delta3, delta4, delta5, delta6, delta7, delta8, delta9, delta10;
+    double delta_1, delta_2, delta_3, delta_4, delta_5;
+    double global_delta;
 
-  /* give global_delta a higher value then precision_goal */
-  global_delta = 2 * precision_goal;
-  while (global_delta > precision_goal && count < max_iter)
-  {
+    Debug("Solve", 0);
 
-      //global_parity=0;
-    Debug("Do_Step 0", 0);
-    delta1 = Do_Step(0);
-    border_exchange_start_point=MPI_Wtime();
-    Exchange_Borders();
-    border_exchange_end_point=MPI_Wtime();
-    //printf("process: %i. Execution time for the first exchange_borders(): %f\n", proc_rank, border_exchange_end_point-border_exchange_start_point);
-    total_communication_time=total_communication_time+border_exchange_end_point-border_exchange_start_point;
-    Debug("Do_Step 1", 0);
-    delta2= Do_Step(1);
-      border_exchange_start_point=MPI_Wtime();
-    Exchange_Borders();
-      border_exchange_end_point=MPI_Wtime();
-      total_communication_time=total_communication_time+border_exchange_end_point-border_exchange_start_point;
-      //printf("process: %i. Execution time for the first exchange_borders(): %f\n", proc_rank, border_exchange_end_point-border_exchange_start_point);
+    /* give global_delta a higher value then precision_goal */
+    global_delta = 2 * precision_goal;
+    while (global_delta > precision_goal && count < max_iter)
+    {
+
+        //global_parity=0;
+        Debug("Do_Step 0", 0);
+        delta1 = Do_Step(0);
+        border_exchange_start_point=MPI_Wtime();
+//        if(proc_rank==0){
+//            printf("border_exchange_start_point:%f\n", border_exchange_start_point);
+//        }
+
+        Exchange_Borders();
+        border_exchange_end_point=MPI_Wtime();
+//        if(proc_rank==0){
+//            printf("border_exchange_end_point:%f\n", border_exchange_end_point);
+//        }
+
+        //printf("process: %i. Execution time for the first exchange_borders(): %f\n", proc_rank, border_exchange_end_point-border_exchange_start_point);
+        total_communication_time=total_communication_time+border_exchange_end_point-border_exchange_start_point;
+        Debug("Do_Step 1", 0);
+        delta2= Do_Step(1);
+        border_exchange_start_point=MPI_Wtime();
+        Exchange_Borders();
+        border_exchange_end_point=MPI_Wtime();
+        total_communication_time=total_communication_time+border_exchange_end_point-border_exchange_start_point;
+        //printf("process: %i. Execution time for the first exchange_borders(): %f\n", proc_rank, border_exchange_end_point-border_exchange_start_point);
 //    delta_1=max(delta1, delta2);
 //      Exchange_Borders();
 //      delta3= Do_Step(0);
@@ -368,77 +372,77 @@ void Solve()
 //      delta_5=max(delta8, delta9);
 //      Exchange_Borders();
 //    delta = max(max(delta_1, delta_2), delta_3);
-    delta=max(delta1, delta2);
-    MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
-    count++;
-  }
-  printf("The process %i, total communication time: %f s\n", proc_rank, total_communication_time);
-  //printf("Number of iterations : %i\n", count);
-  printf("The process %i. Number of iterations: %i\n", proc_rank, count);
+        delta=max(delta1, delta2);
+        MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
+        count++;
+    }
+    printf("The process %i, communication time: %f s\n", proc_rank, total_communication_time);
+    //printf("Number of iterations : %i\n", count);
+    printf("The process %i. Number of iterations: %i\n", proc_rank, count);
 }
 
 void Write_Grid()
 {
-  int x, y;
-  FILE *f;
-  char filename[40];
+    int x, y;
+    FILE *f;
+    char filename[40];
 //  printf("process %i", proc_rank);
 
     sprintf(filename, "output%i.dat", proc_rank);
-  puts(filename);
-  if ((f = fopen(filename, "w")) == NULL)
-    Debug("Write_Grid : fopen failed", 1);
+    puts(filename);
+    if ((f = fopen(filename, "w")) == NULL)
+        Debug("Write_Grid : fopen failed", 1);
 
-  Debug("Write_Grid", 0);
+    Debug("Write_Grid", 0);
 
-  for (x = 1; x < dim[X_DIR] - 1; x++)
-    for (y = 1; y < dim[Y_DIR] - 1; y++)
-        fprintf(f, "%i %i %f\n", x+offset[X_DIR], y+offset[Y_DIR], phi[x][y]);
+    for (x = 1; x < dim[X_DIR] - 1; x++)
+        for (y = 1; y < dim[Y_DIR] - 1; y++)
+            fprintf(f, "%i %i %f\n", x+offset[X_DIR], y+offset[Y_DIR], phi[x][y]);
 
 
 
-  fclose(f);
+    fclose(f);
 }
 
 void Clean_Up()
 {
-  Debug("Clean_Up", 0);
+    Debug("Clean_Up", 0);
 
-  free(phi[0]);
-  free(phi);
-  free(source[0]);
-  free(source);
+    free(phi[0]);
+    free(phi);
+    free(source[0]);
+    free(source);
 }
 
 void Merge_files(int P){
 
-        if(proc_rank==0){
+    if(proc_rank==0){
 
-            char file_name2[80];
-            for(int i=0;i<P;i++) {
-                char file_name1[100] = "output";
+        char file_name2[80];
+        for(int i=0;i<P;i++) {
+            char file_name1[100] = "output";
 
-                sprintf(file_name2, "%d", i);
-                char *file_name3 = ".dat";
-                char *final_file_name = "final_output.dat";
-                int c;
-                char buff[255];
-                strcat(file_name2, file_name3);
-                strcat(file_name1, file_name2);
-                FILE *f = fopen(file_name1, "r");
-                FILE *final = fopen(final_file_name, "a");
-                if(f==NULL){
+            sprintf(file_name2, "%d", i);
+            char *file_name3 = ".dat";
+            char *final_file_name = "final_output.dat";
+            int c;
+            char buff[255];
+            strcat(file_name2, file_name3);
+            strcat(file_name1, file_name2);
+            FILE *f = fopen(file_name1, "r");
+            FILE *final = fopen(final_file_name, "a");
+            if(f==NULL){
                 puts("could not open files");
                 exit(0);
-                }
-                while(fgets(buff, sizeof(buff), f)!=NULL){
-                    fputs(buff, final);
-                }
-                fclose(f);
-                fclose(final);
             }
-            printf("merge files complete!\n");
+            while(fgets(buff, sizeof(buff), f)!=NULL){
+                fputs(buff, final);
+            }
+            fclose(f);
+            fclose(final);
         }
+        printf("merge files complete!\n");
+    }
 
 
 
@@ -454,19 +458,20 @@ int main(int argc, char **argv)
     start_timer();
     Setup_Grid();
     Setup_MPI_Datatypes();
+    int size_mpi_double;
+    Solve();
 
-      Solve();
+    Write_Grid();
+    MPI_Type_size(MPI_DOUBLE, &size_mpi_double);
+    total_data_communicated=total_data_communicated*size_mpi_double;
+    printf("total_data_amount_communicated: %llu\n", total_data_communicated);
+    print_timer();
 
-      Write_Grid();
-      print_timer();
+    Clean_Up();
 
-      Clean_Up();
-
-      Merge_files(P);
-      MPI_Finalize();
+    Merge_files(P);
+    MPI_Finalize();
 
 
-  return 0;
+    return 0;
 }
-
-
