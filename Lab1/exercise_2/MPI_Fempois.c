@@ -54,11 +54,22 @@ int *proc_neighb;		/* ranks of neighbouring processes */
 MPI_Datatype *send_type;	/* MPI Datatypes for sending */
 MPI_Datatype *recv_type;	/* MPI Datatypes for receiving */
 
+double exchange_borders_time_start, exchange_borders_time_end, total_exchange_borders_time=0;
+double computation_time_start, computation_time_end, total_computation_time=0;
+double global_communication_start, global_communication_end, total_global_communication=0;
+double ide_start, ide_end, total_global_ide=0;
+double total_time=0;
+int total_send_count=0;
+int total_receive_count=0;
+int total_amount_of_send=0;
+int total_amount_of_receive=0;
+int total_send_receive=0;
 /* local grid related variables */
 Vertex *vert;			/* vertices */
 double *phi;			/* vertex values */
 int N_vert;			/* number of vertices */
 Matrixrow *A;			/* matrix A */
+
 
 void Setup_Proc_Grid();
 void Setup_Grid();
@@ -113,11 +124,18 @@ void print_timer()
     stop_timer();
     printf("(%i) Elapsed Wtime: %14.6f s (%5.1f%% CPU)\n",
 	   proc_rank, wtime, 100.0 * ticks * (1.0 / CLOCKS_PER_SEC) / wtime);
+    total_global_ide=wtime-total_global_communication-total_exchange_borders_time-total_computation_time;
+//      printf("wtime: %.6f", wtime);
     resume_timer();
   }
   else
+
     printf("(%i) Elapsed Wtime: %14.6f s (%5.1f%% CPU)\n",
 	   proc_rank, wtime, 100.0 * ticks * (1.0 / CLOCKS_PER_SEC) / wtime);
+
+//    total_global_ide=wtime-total_global_communication-total_exchange_borders_time-total_computation_time;
+  printf("(%i) exchange border time:%.6f\ncomputation time:%.6f\nglobal communication time:%.6f\ntotal idle time:%.6f\n", proc_rank, total_exchange_borders_time, total_computation_time, total_global_communication, total_global_ide);
+  printf("total communication time:%.6f\n", total_global_communication+total_exchange_borders_time);
 }
 
 void Debug(char *mesg, int terminate)
@@ -172,6 +190,7 @@ void Setup_Proc_Grid()
   MPI_Bcast(index, N_nodes, MPI_INT, 0, MPI_COMM_WORLD);
 
   N_edges = index[N_nodes - 1];
+  printf("N_edges: %i\n", N_edges);
   if (N_edges>0)
   {
     if ((edges = malloc(N_edges * sizeof(int))) == NULL)
@@ -397,8 +416,14 @@ void Setup_MPI_Datatypes(FILE * f)
     {
       s = fscanf(f, "%i", &indices[count]);
       if ((s == 1) && !(vert[indices[count]].type & TYPE_SOURCE))
+
 	count++;
+
+
     }
+      total_send_count+=count;
+//    printf("process id: %i, total_count: %i\n", proc_rank, total_send_count);
+
     fscanf(f, "\n");
     MPI_Type_indexed(count, blocklens, indices, MPI_DOUBLE, &recv_type[i]);
     MPI_Type_commit(&recv_type[i]);
@@ -411,7 +436,9 @@ void Setup_MPI_Datatypes(FILE * f)
       s = fscanf(f, "%i", &indices[count]);
       if ((s == 1) && !(vert[indices[count]].type & TYPE_SOURCE))
 	count++;
+
     }
+      total_receive_count+=count;
     fscanf(f, "\n");
     MPI_Type_indexed(count, blocklens, indices, MPI_DOUBLE, &send_type[i]);
     MPI_Type_commit(&send_type[i]);
@@ -430,8 +457,20 @@ void Setup_MPI_Datatypes(FILE * f)
 void Exchange_Borders(double *vect)
 {
 
-    
-    // Please finsih this part to realize the purpose of data communication among neighboring processors. (Tip: the function "MPI_Sendrecv" needs to be used here.)
+    Debug("Exchange_Borders", 0);
+    for(int i=0;i<N_neighb;i++){
+        MPI_Sendrecv(vect, 1, send_type[i], proc_neighb[i], 0,
+                     vect, 1, recv_type[i], proc_neighb[i], 0, grid_comm, &status);
+        total_amount_of_send=total_amount_of_send+total_send_count;
+        total_amount_of_receive=total_amount_of_receive+total_receive_count;
+    }
+
+
+//    // Please finsih this part to realize the purpose of data communication among neighboring processors. (Tip: the function "MPI_Sendrecv" needs to be used here.)
+
+
+
+
 }
 
 
@@ -458,9 +497,10 @@ void Solve()
       Debug("Solve : malloc(q) failed", 1);
 
   /* Implementation of the CG algorithm : */
-
+  exchange_borders_time_start=MPI_Wtime();
   Exchange_Borders(phi);
-
+  exchange_borders_time_end=MPI_Wtime();
+  total_exchange_borders_time=total_exchange_borders_time+exchange_borders_time_end-exchange_borders_time_start;
   /* r = b-Ax */
   for (i = 0; i < N_vert; i++)
   {
@@ -477,8 +517,10 @@ void Solve()
     for (i = 0; i < N_vert; i++)
       if (!(vert[i].type & TYPE_GHOST))
 	sub += r[i] * r[i];
+    global_communication_start=MPI_Wtime();
     MPI_Allreduce(&sub, &r1, 1, MPI_DOUBLE, MPI_SUM, grid_comm);
-
+    global_communication_end=MPI_Wtime();
+    total_global_communication=total_global_communication+global_communication_end-global_communication_start;
     if (count == 0)
     {
       /* p = r */
@@ -493,7 +535,10 @@ void Solve()
       for (i = 0; i < N_vert; i++)
 	p[i] = r[i] + b * p[i];
     }
+    exchange_borders_time_start=MPI_Wtime();
     Exchange_Borders(p);
+    exchange_borders_time_end=MPI_Wtime();
+    total_exchange_borders_time=total_computation_time+exchange_borders_time_end-exchange_borders_time_start;
 
     /* q = A * p */
     for (i = 0; i < N_vert; i++)
@@ -508,7 +553,10 @@ void Solve()
     for (i = 0; i < N_vert; i++)
       if (!(vert[i].type & TYPE_GHOST))
 	sub += p[i] * q[i];
+      global_communication_start=MPI_Wtime();
     MPI_Allreduce(&sub, &a, 1, MPI_DOUBLE, MPI_SUM, grid_comm);
+    global_communication_end=MPI_Wtime();
+    total_global_communication=total_global_communication+global_communication_end-global_communication_start;
     a = r1 / a;
 
     /* x = x + a*p */
@@ -582,13 +630,21 @@ int main(int argc, char **argv)
 
   Setup_Grid();
 
+  computation_time_start=MPI_Wtime();
   Solve();
-
+  computation_time_end=MPI_Wtime();
+  total_computation_time=total_computation_time+computation_time_end-computation_time_start;
   Write_Grid();
 
   Clean_Up();
 
   print_timer();
+//  printf("total send count %i\n", total_send_count);
+//    printf("total receive count %i\n", total_receive_count);
+  total_amount_of_send=total_amount_of_send*sizeof(send_type);
+  total_amount_of_receive=total_amount_of_receive*sizeof(recv_type);
+  total_send_receive=total_amount_of_send+total_amount_of_receive;
+  printf("total amount of send and receive: %i\n", total_send_receive);
 
   Debug("MPI_Finalize", 0);
 
