@@ -502,25 +502,31 @@ void Solve()
     exchange_borders_time_end=MPI_Wtime();
     total_exchange_borders_time=total_exchange_borders_time+exchange_borders_time_end-exchange_borders_time_start;
     /* r = b-Ax */
+    computation_time_start=MPI_Wtime();
     for (i = 0; i < N_vert; i++)
     {
         r[i] = 0.0;
         for (j = 0; j < A[i].Ncol; j++)
             r[i] -= A[i].val[j] * phi[A[i].col[j]];
     }
-
+    computation_time_end=MPI_Wtime();
+    total_computation_time=total_computation_time+computation_time_end-computation_time_start;
     r1 = 2 * precision_goal;
     while ((count < max_iter) && (r1 > precision_goal))
     {
         /* r1 = r' * r */
+        computation_time_start=MPI_Wtime();
         sub = 0.0;
         for (i = 0; i < N_vert; i++)
             if (!(vert[i].type & TYPE_GHOST))
                 sub += r[i] * r[i];
+        computation_time_end=MPI_Wtime();
+        total_computation_time=total_computation_time+computation_time_end-computation_time_start;
         global_communication_start=MPI_Wtime();
         MPI_Allreduce(&sub, &r1, 1, MPI_DOUBLE, MPI_SUM, grid_comm);
         global_communication_end=MPI_Wtime();
         total_global_communication=total_global_communication+global_communication_end-global_communication_start;
+        computation_time_start=MPI_Wtime();
         if (count == 0)
         {
             /* p = r */
@@ -535,11 +541,13 @@ void Solve()
             for (i = 0; i < N_vert; i++)
                 p[i] = r[i] + b * p[i];
         }
+        computation_time_end=MPI_Wtime();
+        total_computation_time=total_computation_time+computation_time_end-computation_time_start;
         exchange_borders_time_start=MPI_Wtime();
         Exchange_Borders(p);
         exchange_borders_time_end=MPI_Wtime();
         total_exchange_borders_time=total_exchange_borders_time+exchange_borders_time_end-exchange_borders_time_start;
-
+        computation_time_start=MPI_Wtime();
         /* q = A * p */
         for (i = 0; i < N_vert; i++)
         {
@@ -553,12 +561,14 @@ void Solve()
         for (i = 0; i < N_vert; i++)
             if (!(vert[i].type & TYPE_GHOST))
                 sub += p[i] * q[i];
+        computation_time_end=MPI_Wtime();
+        total_computation_time=total_computation_time+computation_time_end-computation_time_start;
         global_communication_start=MPI_Wtime();
         MPI_Allreduce(&sub, &a, 1, MPI_DOUBLE, MPI_SUM, grid_comm);
         global_communication_end=MPI_Wtime();
         total_global_communication=total_global_communication+global_communication_end-global_communication_start;
         a = r1 / a;
-
+        computation_time_start=MPI_Wtime();
         /* x = x + a*p */
         for (i = 0; i < N_vert; i++)
             phi[i] += a * p[i];
@@ -568,8 +578,10 @@ void Solve()
             r[i] -= a * q[i];
 
         r2 = r1;
-
+        computation_time_end=MPI_Wtime();
+        total_computation_time=total_computation_time+computation_time_end-computation_time_start;
         count++;
+
     }
     free(q);
     free(p);
@@ -630,10 +642,9 @@ int main(int argc, char **argv)
 
     Setup_Grid();
 
-    computation_time_start=MPI_Wtime();
+
     Solve();
-    computation_time_end=MPI_Wtime();
-    total_computation_time=total_computation_time+computation_time_end-computation_time_start;
+
     Write_Grid();
 
     Clean_Up();
