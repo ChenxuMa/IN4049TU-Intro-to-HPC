@@ -374,6 +374,8 @@ void Solve()
 //    delta = max(max(delta_1, delta_2), delta_3);
         delta=max(delta1, delta2);
         MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
+
+
         count++;
     }
     printf("The process %i, communication time: %f s\n", proc_rank, total_communication_time);
