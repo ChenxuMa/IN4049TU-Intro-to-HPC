@@ -59,6 +59,7 @@ double computation_time_start, computation_time_end, total_computation_time=0;
 double global_communication_start, global_communication_end, total_global_communication=0;
 double ide_start, ide_end, total_global_ide=0;
 double total_time=0;
+double solve_start, solve_end, total_solve_time=0;
 int total_send_count=0;
 int total_receive_count=0;
 int total_amount_of_send=0;
@@ -122,20 +123,27 @@ void print_timer()
     if (timer_on)
     {
         stop_timer();
-        printf("(%i) Elapsed Wtime: %14.6f s (%5.1f%% CPU)\n",
-               proc_rank, wtime, 100.0 * ticks * (1.0 / CLOCKS_PER_SEC) / wtime);
-        total_global_ide=wtime-total_global_communication-total_exchange_borders_time-total_computation_time;
-//      printf("wtime: %.6f", wtime);
+//        printf("(%i) Elapsed Wtime: %14.6f s (%5.1f%% CPU)\n",
+//               proc_rank, wtime, 100.0 * ticks * (1.0 / CLOCKS_PER_SEC) / wtime);
+        printf("(%i) Elapsed Wtime: %14.6f s\n", proc_rank, total_solve_time);
+        total_global_ide=total_solve_time-total_global_communication-total_exchange_borders_time-total_computation_time;
+        printf("(%i) exchange border time:%.6f\ncomputation time:%.6f\nglobal communication time:%.6f\ntotal idle time:%.6f\n", proc_rank, total_exchange_borders_time, total_computation_time, total_global_communication, total_global_ide);
+        printf("total communication time:%.6f\n", total_global_communication+total_exchange_borders_time);
+        //      printf("wtime: %.6f", wtime);
         resume_timer();
     }
-    else
+    else{
+//        printf("(%i) Elapsed Wtime: %14.6f s (%5.1f%% CPU)\n",
+//               proc_rank, wtime, 100.0 * ticks * (1.0 / CLOCKS_PER_SEC) / wtime);
+        printf("(%i) Elapsed Wtime: %14.6f s\n", proc_rank, total_solve_time);
+        total_global_ide=wtime-total_global_communication-total_exchange_borders_time-total_computation_time;
+        printf("(%i) exchange border time:%.6f\ncomputation time:%.6f\nglobal communication time:%.6f\ntotal idle time:%.6f\n", proc_rank, total_exchange_borders_time, total_computation_time, total_global_communication, total_global_ide);
+        printf("total communication time:%.6f\n", total_global_communication+total_exchange_borders_time);
 
-        printf("(%i) Elapsed Wtime: %14.6f s (%5.1f%% CPU)\n",
-               proc_rank, wtime, 100.0 * ticks * (1.0 / CLOCKS_PER_SEC) / wtime);
 
-//    total_global_ide=wtime-total_global_communication-total_exchange_borders_time-total_computation_time;
-    printf("(%i) exchange border time:%.6f\ncomputation time:%.6f\nglobal communication time:%.6f\ntotal idle time:%.6f\n", proc_rank, total_exchange_borders_time, total_computation_time, total_global_communication, total_global_ide);
-    printf("total communication time:%.6f\n", total_global_communication+total_exchange_borders_time);
+    }
+
+
 }
 
 void Debug(char *mesg, int terminate)
@@ -473,11 +481,6 @@ void Exchange_Borders(double *vect)
 
 }
 
-
-
-
-
-
 void Solve()
 {
     int count = 0;
@@ -497,6 +500,7 @@ void Solve()
         Debug("Solve : malloc(q) failed", 1);
 
     /* Implementation of the CG algorithm : */
+    solve_start=MPI_Wtime();
     exchange_borders_time_start=MPI_Wtime();
     Exchange_Borders(phi);
     exchange_borders_time_end=MPI_Wtime();
@@ -583,6 +587,8 @@ void Solve()
         count++;
 
     }
+    solve_end=MPI_Wtime();
+    total_solve_time=total_solve_time+(solve_end-solve_start);
     free(q);
     free(p);
     free(r);
