@@ -86,6 +86,32 @@ void start_timer();
 void resume_timer();
 void stop_timer();
 void print_timer();
+//void write_file(FILE *fp);
+
+//void write_file(FILE *fp){
+//    int i;
+//    if(fp == NULL)
+//    {
+//        printf("open file error!\n");
+//        exit(-1);
+//    }
+//    i = fileno(fp);
+//
+//    if(-1 == flock(i,LOCK_EX))
+//    {
+//        printf("failing to lock!\n ");
+//    }
+//
+//    if(0 == flock(i,LOCK_EX))
+//    {
+//        printf("lock success!\n");
+//    }
+//    fprintf(fp, "%i \t %.6f \t %.6f \n", proc_rank, total_computation_time, total_global_communication);
+//
+//    sleep(5);
+//    fclose(fp);
+//    flock(i,LOCK_UN);
+//}
 
 void start_timer()
 {
@@ -139,7 +165,7 @@ void print_timer()
         total_global_ide=wtime-total_global_communication-total_exchange_borders_time-total_computation_time;
         printf("(%i) exchange border time:%.6f\ncomputation time:%.6f\nglobal communication time:%.6f\ntotal idle time:%.6f\n", proc_rank, total_exchange_borders_time, total_computation_time, total_global_communication, total_global_ide);
         printf("total communication time:%.6f\n", total_global_communication+total_exchange_borders_time);
-
+//        write_file()
 
     }
 
@@ -662,7 +688,9 @@ int main(int argc, char **argv)
     total_amount_of_receive=total_amount_of_receive*sizeof(recv_type);
     total_send_receive=total_amount_of_send+total_amount_of_receive;
     printf("total amount of send and receive: %i\n", total_send_receive);
-
+//    FILE *fp;
+//    fp = fopen("computation_result.txt","a+");
+//    write_file(fp);
     Debug("MPI_Finalize", 0);
 
     MPI_Finalize();
